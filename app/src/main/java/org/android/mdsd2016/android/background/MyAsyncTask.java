@@ -9,7 +9,7 @@ import android.widget.Toast;
  * Created by Pablo L on 14/03/2017.
  */
 
-public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
+public class MyAsyncTask<S, V, S1> extends AsyncTask<Integer, Integer, String> {
 
     private static final String TAG = MyAsyncTask.class.getSimpleName();
 
@@ -38,6 +38,11 @@ public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
     @Override
     protected void onProgressUpdate(Integer[] values){
         super.onProgressUpdate(values);
+
+        //to use Context we have to use method from activity
+        ((MainActivity) this.mContext).updateProgressBar(values[0]);
+
+
     }
 
     @Override
@@ -50,7 +55,9 @@ public class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
     private void sleepForAWhile(Integer numSecs) {
 
         long currentTime = System.currentTimeMillis();
-        long finishTime = currentTime + numSecs * 10 ^ 3;
+        long finishTime = currentTime + numSecs * 1000;
+        Log.i(MyAsyncTask.TAG, "Current Time: " + currentTime);
+        Log.i(MyAsyncTask.TAG, "Finish Time:" + finishTime);
 
         while (currentTime < finishTime) {
             currentTime = System.currentTimeMillis();
